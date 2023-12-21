@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Proxy</title>
+</head>
+<body>
+  <input type="text" id="url" placeholder="Enter URL">
+  <button onclick="loadURL()">Go</button>
+  <iframe id="proxyFrame" width="100%" height="500"></iframe>
+
+  <script>
+    function loadURL() {
+      const url = document.getElementById('url').value;
+      const proxyFrame = document.getElementById('proxyFrame');
+      
+      if (!url) {
+        alert('Please enter a URL');
+        return;
+      }
+      
+      fetch(`https://cors.bridged.cc/${url}`)
+        .then(response => response.text())
+        .then(data => {
+          proxyFrame.src = `data:text/html;base64,${btoa(data)}`;
+        })
+        .catch(error => {
+          console.error('Error fetching content:', error);
+        });
+    }
+  </script>
+</body>
+</html>
